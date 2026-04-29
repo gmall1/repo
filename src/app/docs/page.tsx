@@ -53,9 +53,26 @@ docker compose up -d`}</code>
 
           <h2>AI features</h2>
           <p>
-            Set <code>OPENAI_API_KEY</code> in your env to enable PR summaries, AI code review,
-            commit message generation, and issue auto-triage. AI features are entirely optional —
-            disable them by leaving the env var unset.
+            Repo speaks the OpenAI chat-completions API, so any compatible provider works.
+            Pick one:
+          </p>
+          <ul>
+            <li>
+              <strong>Groq</strong> (free tier, very fast):{" "}
+              <code>GROQ_API_KEY=gsk_…</code> — defaults to{" "}
+              <code>llama-3.3-70b-versatile</code>.
+            </li>
+            <li>
+              <strong>OpenAI</strong>: <code>OPENAI_API_KEY=sk-…</code> — defaults to{" "}
+              <code>gpt-4o-mini</code>.
+            </li>
+            <li>
+              <strong>Any compatible</strong> (OpenRouter, Together, local Ollama, …):{" "}
+              <code>AI_API_KEY</code>, <code>AI_BASE_URL</code>, <code>AI_MODEL</code>.
+            </li>
+          </ul>
+          <p>
+            AI features are entirely optional — leave the env vars unset to disable them.
           </p>
 
           <h2>API</h2>

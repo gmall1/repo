@@ -51,9 +51,21 @@ Set in `.env`:
 | `SESSION_SECRET` | yes (production) | HMAC secret for session cookies |
 | `NEXT_PUBLIC_APP_URL` | yes | Public origin (used in clone URLs) |
 | `REPO_STORAGE_PATH` | no | Where bare repos live. Default `./data/repos` |
-| `OPENAI_API_KEY` | no | Enables AI review/summary/triage |
 | `RESEND_API_KEY` | no | Enables transactional email |
 | `EMAIL_FROM` | no | Sender for outgoing email |
+
+### AI provider
+
+Repo's AI features speak the OpenAI chat-completions API, so any compatible
+provider works. Pick one and set its env vars:
+
+| Provider | Env vars |
+| --- | --- |
+| **Groq** (free tier, fast) | `GROQ_API_KEY=gsk_…` (defaults to `llama-3.3-70b-versatile`) |
+| **OpenAI** | `OPENAI_API_KEY=sk-…` (defaults to `gpt-4o-mini`) |
+| **Any compatible** (OpenRouter, Together, Ollama, …) | `AI_API_KEY=…`, `AI_BASE_URL=https://…/v1`, `AI_MODEL=…` |
+
+Leave them all unset to disable AI; nothing else changes.
 
 ## Architecture
 
