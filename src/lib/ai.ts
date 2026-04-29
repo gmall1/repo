@@ -2,17 +2,40 @@ import OpenAI from "openai";
 
 let client: OpenAI | null = null;
 
+function apiKey(): string | undefined {
+  return process.env.AI_API_KEY || process.env.OPENAI_API_KEY || process.env.GROQ_API_KEY;
+}
+
+function baseURL(): string | undefined {
+  if (process.env.AI_BASE_URL) return process.env.AI_BASE_URL;
+  if (process.env.OPENAI_BASE_URL) return process.env.OPENAI_BASE_URL;
+  if (process.env.GROQ_API_KEY && !process.env.OPENAI_API_KEY) {
+    return "https://api.groq.com/openai/v1";
+  }
+  return undefined;
+}
+
 function getClient(): OpenAI | null {
-  if (!process.env.OPENAI_API_KEY) return null;
-  if (!client) client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  const key = apiKey();
+  if (!key) return null;
+  if (!client) client = new OpenAI({ apiKey: key, baseURL: baseURL() });
   return client;
 }
 
 export function aiEnabled(): boolean {
-  return !!process.env.OPENAI_API_KEY;
+  return !!apiKey();
 }
 
-const MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini";
+function defaultModel(): string {
+  if (process.env.AI_MODEL) return process.env.AI_MODEL;
+  if (process.env.OPENAI_MODEL) return process.env.OPENAI_MODEL;
+  if (process.env.GROQ_API_KEY && !process.env.OPENAI_API_KEY) {
+    return "llama-3.3-70b-versatile";
+  }
+  return "gpt-4o-mini";
+}
+
+const MODEL = defaultModel();
 
 export async function summarizePR(opts: {
   title: string;
